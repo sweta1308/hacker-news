@@ -24,3 +24,12 @@ li:before {
   text-align: right;
   width: 26px;
 }
+
+.more-btn {
+  background-color: transparent;
+  border: none;
+  color: #828282;
+  font-size: 11pt;
+  margin: 10px 50px;
+  cursor: pointer;
+}
