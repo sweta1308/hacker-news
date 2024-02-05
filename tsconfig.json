@@ -19,10 +19,6 @@
     "baseUrl": "src",
     "types": ["@types/node", "@types/jest", "testing-library__jest-dom", "node", "jest"],
   },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "jsdom"
-  },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.test.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules"]
 }
