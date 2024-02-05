@@ -1,0 +1,26 @@
+.news-list {
+  background-color: #f6f6ef;
+  padding: 1px 0;
+  font-size: 10pt;
+}
+
+.loader {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+}
+
+li {
+  counter-increment: list;
+  list-style-type: none;
+  position: relative;
+}
+
+li:before {
+  color: #828282;
+  content: counter(list) '.';
+  left: -32px;
+  position: absolute;
+  text-align: right;
+  width: 26px;
+}
