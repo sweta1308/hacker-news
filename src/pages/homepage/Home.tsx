@@ -33,7 +33,6 @@ export const Home = () => {
   useEffect(() => {
     getIds()
   }, [])
-  console.log(newsData)
   return (
     <div className="home">
       <Navbar />
