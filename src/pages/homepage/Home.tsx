@@ -5,7 +5,9 @@ import { useEffect, useState } from 'react'
 import { NewsType } from './Home.types'
 
 export const Home = () => {
+  const [idList, setIdList] = useState<number[]>([])
   const [newsData, setNewsData] = useState<NewsType[]>([])
+  const [currentPage, setCurrentPage] = useState<number>(1)
   const getIds = async () => {
     try {
       const { status, data } = await axios.get(
@@ -13,6 +15,7 @@ export const Home = () => {
       )
       if (status === 200) {
         data?.map((id: number) => id && getData(id))
+        setIdList(data)
       }
     } catch (e) {
       console.log(e)
@@ -35,8 +38,13 @@ export const Home = () => {
   }, [])
   return (
     <div className="home">
-      <Navbar />
-      <NewsList newsData={newsData} />
+      <Navbar setCurrentPage={setCurrentPage} currentPage={currentPage} />
+      <NewsList
+        newsData={newsData}
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        idList={idList}
+      />
     </div>
   )
 }
