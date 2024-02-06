@@ -27,7 +27,7 @@ const Navbar = ({
         >
           past
         </button>
-        <div>({currentPage})</div>
+        |<div>Page No. {currentPage}</div>
       </div>
       <div className="link">login</div>
     </nav>
