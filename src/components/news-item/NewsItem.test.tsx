@@ -17,7 +17,7 @@ const mockNews: NewsType = {
 }
 
 it('renders NewsItem component with mock data', () => {
-  render(<NewsItem news={mockNews} />)
+  render(<NewsItem news={mockNews} currentPage={1} index={1} />)
 
   const newsItem = screen.getByTestId('news-item')
   expect(newsItem).toBeInTheDocument()
