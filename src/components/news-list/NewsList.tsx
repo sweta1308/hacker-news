@@ -12,6 +12,7 @@ const NewsList = ({
 }: NewsListProps) => {
   const paginate = () => {
     setCurrentPage((prev) => prev + 1)
+    window.scroll({ top: 0, behavior: 'smooth' })
   }
   return (
     <div
