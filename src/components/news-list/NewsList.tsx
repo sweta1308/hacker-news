@@ -10,30 +10,29 @@ const NewsList = ({
   setCurrentPage,
   idList,
 }: NewsListProps) => {
-  const indexOfLastItem = currentPage * 30
-  const indexOfFirstItem = indexOfLastItem - 30
-  const currentItems = newsData.slice(indexOfFirstItem, indexOfLastItem)
-  const paginate = () => setCurrentPage((prev) => prev + 1)
+  const paginate = () => {
+    setCurrentPage((prev) => prev + 1)
+  }
   return (
     <div
-      className={`${newsData?.length === idList?.length && 'news-list'}`}
+      className={`${newsData?.length > 0 && 'news-list'}`}
       data-testid="news-list"
     >
-      {idList?.length !== newsData?.length ? (
+      {newsData?.length === 0 ? (
         <div className="loader">
           <ClipLoader color="ff6600" />
         </div>
       ) : (
         <div>
-          <ol start={indexOfFirstItem + 1}>
-            {currentItems?.map((data: NewsType) => (
+          <ul>
+            {newsData?.map((data: NewsType, i: number) => (
               <li key={data?.id}>
-                <NewsItem news={data} />
+                <NewsItem news={data} currentPage={currentPage} index={i} />
               </li>
             ))}
-          </ol>
+          </ul>
           <button
-            disabled={currentPage === Math.ceil(newsData?.length / 30)}
+            disabled={currentPage === Math.ceil(idList?.length / 30)}
             onClick={() => paginate()}
             className="more-btn"
           >
