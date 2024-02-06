@@ -14,20 +14,8 @@ export const Home = () => {
         'https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty',
       )
       if (status === 200) {
-        data?.map((id: number) => id && getData(id))
         setIdList(data)
       }
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  const getData = async (id: number) => {
-    try {
-      const response = await axios.get(
-        `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`,
-      )
-      setNewsData((prev) => [...prev, response?.data])
     } catch (e) {
       console.log(e)
     }
@@ -36,9 +24,40 @@ export const Home = () => {
   useEffect(() => {
     getIds()
   }, [])
+
+  useEffect(() => {
+    const fetchObjects = async () => {
+      setNewsData([])
+      const startIndex = (currentPage - 1) * 30
+      const endIndex = currentPage * 30
+      const ids = idList.slice(startIndex, endIndex)
+
+      const newsItems = await Promise.all(
+        ids.map(async (id) => {
+          const { status, data } = await axios.get(
+            `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`,
+          )
+          if (status === 200) {
+            return data
+          } else {
+            console.log('Failed to fetch data!')
+          }
+        }),
+      )
+      setNewsData(newsItems)
+    }
+
+    if (idList.length > 0) {
+      fetchObjects()
+    }
+  }, [idList, currentPage])
   return (
     <div className="home">
-      <Navbar setCurrentPage={setCurrentPage} currentPage={currentPage} />
+      <Navbar
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+        newsData={newsData}
+      />
       <NewsList
         newsData={newsData}
         currentPage={currentPage}
