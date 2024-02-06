@@ -2,6 +2,11 @@
   margin: 6px 0;
   display: flex;
   gap: 5px;
+  margin-left: -25px;
+}
+
+.numbers {
+  color: #828282;
 }
 
 .upvote {
