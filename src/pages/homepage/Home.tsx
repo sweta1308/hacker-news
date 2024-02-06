@@ -2,11 +2,12 @@ import axios from 'axios'
 import { Navbar, NewsList } from '../../components/index'
 import './Home.css'
 import { useEffect, useState } from 'react'
-import { NewsType } from './Home.types'
+import { FetchedDataType, NewsType } from './Home.types'
 
 export const Home = () => {
   const [idList, setIdList] = useState<number[]>([])
   const [newsData, setNewsData] = useState<NewsType[]>([])
+  const [fetchedData, setFetchedData] = useState<FetchedDataType>({})
   const [currentPage, setCurrentPage] = useState<number>(1)
   const getIds = async () => {
     try {
@@ -32,25 +33,31 @@ export const Home = () => {
       const endIndex = currentPage * 30
       const ids = idList.slice(startIndex, endIndex)
 
-      const newsItems = await Promise.all(
-        ids.map(async (id) => {
-          const { status, data } = await axios.get(
-            `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`,
-          )
-          if (status === 200) {
-            return data
-          } else {
-            console.log('Failed to fetch data!')
-          }
-        }),
-      )
-      setNewsData(newsItems)
+      if (fetchedData[currentPage]) {
+        setNewsData(fetchedData[currentPage])
+      } else {
+        const newsItems = await Promise.all(
+          ids.map(async (id) => {
+            const { status, data } = await axios.get(
+              `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`,
+            )
+            if (status === 200) {
+              return data
+            } else {
+              console.log('Failed to fetch data!')
+            }
+          }),
+        )
+        setFetchedData({ ...fetchedData, [currentPage]: newsItems })
+        setNewsData(newsItems)
+      }
     }
 
     if (idList.length > 0) {
       fetchObjects()
     }
-  }, [idList, currentPage])
+  }, [idList, currentPage, fetchedData])
+
   return (
     <div className="home">
       <Navbar
