@@ -1,16 +1,8 @@
-import { Dispatch, SetStateAction } from 'react'
 import './Navbar.css'
-import { NewsType } from 'pages/homepage/Home.types'
+import { NavbarProps } from './Navbar.types'
 
-const Navbar = ({
-  setCurrentPage,
-  currentPage,
-  newsData,
-}: {
-  setCurrentPage: Dispatch<SetStateAction<number>>
-  currentPage: number
-  newsData: NewsType[]
-}) => {
+const Navbar = (props: NavbarProps) => {
+  const { setCurrentPage, currentPage, newsData } = props
   return (
     <nav data-testid="navbar">
       <div className="nav-container">

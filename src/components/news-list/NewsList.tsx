@@ -4,12 +4,8 @@ import './NewsList.css'
 import NewsItem from 'components/news-item/NewsItem'
 import { NewsListProps } from './NewsList.types'
 
-const NewsList = ({
-  newsData,
-  currentPage,
-  setCurrentPage,
-  idList,
-}: NewsListProps) => {
+const NewsList = (props: NewsListProps) => {
+  const { newsData, currentPage, setCurrentPage, idList } = props
   const paginate = () => {
     setCurrentPage((prev) => prev + 1)
     window.scroll({ top: 0, behavior: 'smooth' })

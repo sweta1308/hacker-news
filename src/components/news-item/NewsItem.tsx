@@ -1,16 +1,9 @@
-import { NewsType } from 'pages/homepage/Home.types'
 import './NewsItem.css'
 import { timeAgo } from 'utils/Time'
+import { NewsItemProps } from './NewsItem.types'
 
-const NewsItem = ({
-  news,
-  currentPage,
-  index,
-}: {
-  news: NewsType
-  currentPage: number
-  index: number
-}) => {
+const NewsItem = (props: NewsItemProps) => {
+  const { news, currentPage, index } = props
   return (
     <div className="news-item" data-testid="news-item">
       <div className="numbers">{(currentPage - 1) * 30 + index + 1}.</div>
