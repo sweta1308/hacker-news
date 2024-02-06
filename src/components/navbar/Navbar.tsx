@@ -1,12 +1,15 @@
 import { Dispatch, SetStateAction } from 'react'
 import './Navbar.css'
+import { NewsType } from 'pages/homepage/Home.types'
 
 const Navbar = ({
   setCurrentPage,
   currentPage,
+  newsData,
 }: {
   setCurrentPage: Dispatch<SetStateAction<number>>
   currentPage: number
+  newsData: NewsType[]
 }) => {
   return (
     <nav data-testid="navbar">
@@ -18,12 +21,13 @@ const Navbar = ({
         </button>
         |
         <button
-          disabled={currentPage === 1}
+          disabled={currentPage === 1 || newsData.length === 0}
           onClick={() => setCurrentPage((prev) => prev - 1)}
           className="link button"
         >
           past
         </button>
+        <div>({currentPage})</div>
       </div>
       <div className="link">login</div>
     </nav>
