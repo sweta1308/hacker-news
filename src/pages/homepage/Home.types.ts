@@ -10,3 +10,7 @@ export type NewsType = {
   url: string
   text?: string
 }
+
+export type FetchedDataType = {
+  [key: number]: NewsType[]
+}
