@@ -22,3 +22,8 @@ li {
   margin: 10px 50px;
   cursor: pointer;
 }
+
+.more-btn:disabled {
+  cursor: not-allowed;
+  color: #c9c8c8;
+}
