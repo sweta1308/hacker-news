@@ -17,7 +17,14 @@ const mockNewsData: NewsType[] = Array.from({ length: 500 }, (_, index) => ({
 }))
 
 test('renders NewsList component with 500 news items', async () => {
-  render(<NewsList newsData={mockNewsData} />)
+  render(
+    <NewsList
+      newsData={mockNewsData}
+      currentPage={1}
+      setCurrentPage={(current) => console.log(current)}
+      idList={[1, 2, 3, 4]}
+    />,
+  )
 
   await waitFor(() => {
     const newsList = screen.getByTestId('news-list')

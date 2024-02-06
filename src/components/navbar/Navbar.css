@@ -32,3 +32,9 @@ nav {
 .link {
   cursor: pointer;
 }
+
+.link.button {
+  background-color: transparent;
+  border: none;
+  font-size: 11pt;
+}

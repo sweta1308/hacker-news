@@ -4,7 +4,9 @@ import '@testing-library/jest-dom'
 import Navbar from './Navbar'
 
 test('renders Navbar component', () => {
-  render(<Navbar />)
+  render(
+    <Navbar setCurrentPage={(prev) => console.log(prev)} currentPage={1} />,
+  )
 
   const navbarElement = screen.getByTestId('navbar')
   expect(navbarElement).toBeInTheDocument()
