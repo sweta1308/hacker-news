@@ -2,9 +2,18 @@ import { NewsType } from 'pages/homepage/Home.types'
 import './NewsItem.css'
 import { timeAgo } from 'utils/Time'
 
-const NewsItem = ({ news }: { news: NewsType }) => {
+const NewsItem = ({
+  news,
+  currentPage,
+  index,
+}: {
+  news: NewsType
+  currentPage: number
+  index: number
+}) => {
   return (
     <div className="news-item" data-testid="news-item">
+      <div className="numbers">{(currentPage - 1) * 30 + index + 1}.</div>
       <div className="upvote"></div>
       <div>
         <div>
