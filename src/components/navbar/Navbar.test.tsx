@@ -5,7 +5,11 @@ import Navbar from './Navbar'
 
 test('renders Navbar component', () => {
   render(
-    <Navbar setCurrentPage={(prev) => console.log(prev)} currentPage={1} />,
+    <Navbar
+      setCurrentPage={(prev) => console.log(prev)}
+      currentPage={1}
+      newsData={[]}
+    />,
   )
 
   const navbarElement = screen.getByTestId('navbar')
