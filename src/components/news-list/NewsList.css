@@ -11,18 +11,7 @@
 }
 
 li {
-  counter-increment: list;
-  list-style-type: none;
-  position: relative;
-}
-
-li:before {
-  color: #828282;
-  content: counter(list) '.';
-  left: -32px;
-  position: absolute;
-  text-align: right;
-  width: 26px;
+  list-style: none;
 }
 
 .more-btn {
