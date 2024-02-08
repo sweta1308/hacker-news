@@ -1,7 +1,6 @@
-import { NewsType } from 'pages/homepage/Home.types'
+import { NewsType } from 'context/NewsContext.types'
 
 export type NewsItemProps = {
   news: NewsType
-  currentPage: number
   index: number
 }
