@@ -1,12 +1,15 @@
 import './NewsItem.css'
-import { timeAgo } from 'utils/Time'
+import { timeAgo } from 'utils/time/Time'
 import { NewsItemProps } from './NewsItem.types'
+import { useNews } from 'context/NewsContext'
+import { getSerialNumber } from 'utils/serial-number/SerialNumber'
 
 const NewsItem = (props: NewsItemProps) => {
-  const { news, currentPage, index } = props
+  const { news, index } = props
+  const { currentPage } = useNews()
   return (
     <div className="news-item" data-testid="news-item">
-      <div className="numbers">{(currentPage - 1) * 30 + index + 1}.</div>
+      <div className="numbers">{getSerialNumber(index, currentPage)}.</div>
       <div className="upvote"></div>
       <div>
         <div>
