@@ -1,20 +1,22 @@
+import { useNews } from 'context/NewsContext'
 import './Navbar.css'
-import { NavbarProps } from './Navbar.types'
+import { isPastBtnDisabled } from 'utils/past-button/PastBtnDisabled'
 
-const Navbar = (props: NavbarProps) => {
-  const { setCurrentPage, currentPage, newsData } = props
+const Navbar = () => {
+  const { currentPage, newsData, handleNewClick, handlePastClick } = useNews()
+  const isBtnDisabled = isPastBtnDisabled(currentPage, newsData)
   return (
     <nav data-testid="navbar">
       <div className="nav-container">
         <div className="logo">Y</div>
         <div className="header">Hacker News</div>
-        <button onClick={() => setCurrentPage(1)} className="link button">
+        <button onClick={handleNewClick} className="link button">
           new
         </button>
         |
         <button
-          disabled={currentPage === 1 || newsData.length === 0}
-          onClick={() => setCurrentPage((prev) => prev - 1)}
+          disabled={isBtnDisabled}
+          onClick={handlePastClick}
           className="link button"
         >
           past
