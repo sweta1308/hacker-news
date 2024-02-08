@@ -1,22 +1,16 @@
 import { ClipLoader } from 'react-spinners'
-import { NewsType } from 'pages/homepage/Home.types'
+import { NewsType } from 'context/NewsContext.types'
 import './NewsList.css'
 import NewsItem from 'components/news-item/NewsItem'
-import { NewsListProps } from './NewsList.types'
+import { useNews } from 'context/NewsContext'
 
-const NewsList = (props: NewsListProps) => {
-  const { newsData, currentPage, setCurrentPage, idList } = props
-  const paginate = () => {
-    setCurrentPage((prev) => prev + 1)
-    window.scroll({ top: 0, behavior: 'smooth' })
-  }
+const NewsList = () => {
+  const { newsData, isMoreBtnDisabled, paginate, getNewsListClass } = useNews()
+  const isMoreDisabled = isMoreBtnDisabled()
   return (
-    <div
-      className={`${newsData?.length > 0 && 'news-list'}`}
-      data-testid="news-list"
-    >
+    <div className={`${getNewsListClass()}`} data-testid="news-list">
       {newsData?.length === 0 ? (
-        <div className="loader">
+        <div className="loader" data-testid="loader">
           <ClipLoader color="ff6600" />
         </div>
       ) : (
@@ -24,12 +18,12 @@ const NewsList = (props: NewsListProps) => {
           <ul>
             {newsData?.map((data: NewsType, i: number) => (
               <li key={data?.id}>
-                <NewsItem news={data} currentPage={currentPage} index={i} />
+                <NewsItem news={data} index={i} />
               </li>
             ))}
           </ul>
           <button
-            disabled={currentPage === Math.ceil(idList?.length / 30)}
+            disabled={isMoreDisabled}
             onClick={() => paginate()}
             className="more-btn"
           >
