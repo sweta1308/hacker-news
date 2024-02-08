@@ -1,8 +1,13 @@
-import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import NewsItem from './NewsItem'
-import { NewsType } from 'pages/homepage/Home.types'
+import { NewsType } from 'context/NewsContext.types'
+
+jest.mock('../../context/NewsContext', () => ({
+  useNews: jest.fn(() => ({
+    currentPage: 1,
+  })),
+}))
 
 const mockNews: NewsType = {
   title: 'Mock News Title',
@@ -17,7 +22,7 @@ const mockNews: NewsType = {
 }
 
 it('renders NewsItem component with mock data', () => {
-  render(<NewsItem news={mockNews} currentPage={1} index={1} />)
+  render(<NewsItem news={mockNews} index={1} />)
 
   const newsItem = screen.getByTestId('news-item')
   expect(newsItem).toBeInTheDocument()
