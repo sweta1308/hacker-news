@@ -2,14 +2,14 @@ import './NewsItem.css'
 import { timeAgo } from 'utils/time/Time'
 import { NewsItemProps } from './NewsItem.types'
 import { useNews } from 'context/NewsContext'
-import { getSerialNumber } from 'utils/serial-number/SerialNumber'
 
 const NewsItem = (props: NewsItemProps) => {
   const { news, index } = props
   const { currentPage } = useNews()
+  const serialNumber = (currentPage - 1) * 30 + index + 1
   return (
-    <div className="news-item" data-testid="news-item">
-      <div className="numbers">{getSerialNumber(index, currentPage)}.</div>
+    <li key={news.id} className="news-item" data-testid="news-item">
+      <div className="numbers">{serialNumber}.</div>
       <div className="upvote"></div>
       <div>
         <div>
@@ -26,7 +26,7 @@ const NewsItem = (props: NewsItemProps) => {
           <span className="underlined">{news?.descendants} comments</span>
         </div>
       </div>
-    </div>
+    </li>
   )
 }
 
