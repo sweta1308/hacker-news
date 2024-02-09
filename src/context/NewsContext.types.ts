@@ -5,13 +5,12 @@ export type NewsProviderProps = {
 }
 
 export type NewsContextProps = {
-  newsData: NewsType[]
+  news: NewsType[]
   currentPage: number
+  isMoreBtnDisabled: boolean
   handleNewClick: () => void
   handlePastClick: () => void
-  isMoreBtnDisabled: () => boolean
-  paginate: () => void
-  getNewsListClass: () => string | false
+  handleMoreClick: () => void
 }
 
 export type NewsType = {
