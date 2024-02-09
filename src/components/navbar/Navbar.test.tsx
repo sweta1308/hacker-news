@@ -6,7 +6,7 @@ import { useNews } from 'context/NewsContext'
 jest.mock('../../context/NewsContext', () => ({
   useNews: jest.fn(() => ({
     currentPage: 1,
-    newsData: [
+    news: [
       {
         title: 'Mock News Title',
         url: 'https://example.com',
