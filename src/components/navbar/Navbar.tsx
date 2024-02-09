@@ -1,10 +1,10 @@
 import { useNews } from 'context/NewsContext'
 import './Navbar.css'
-import { isPastBtnDisabled } from 'utils/past-button/PastBtnDisabled'
 
 const Navbar = () => {
-  const { currentPage, newsData, handleNewClick, handlePastClick } = useNews()
-  const isBtnDisabled = isPastBtnDisabled(currentPage, newsData)
+  const { currentPage, news, handleNewClick, handlePastClick } = useNews()
+  const isPastBtnDisabled =
+    currentPage === 1 || news?.length === 0 ? true : false
   return (
     <nav data-testid="navbar">
       <div className="nav-container">
@@ -15,7 +15,7 @@ const Navbar = () => {
         </button>
         |
         <button
-          disabled={isBtnDisabled}
+          disabled={isPastBtnDisabled}
           onClick={handlePastClick}
           className="link button"
         >
