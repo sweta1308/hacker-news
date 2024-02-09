@@ -5,7 +5,7 @@ import { useNews } from 'context/NewsContext'
 
 jest.mock('context/NewsContext', () => ({
   useNews: jest.fn(() => ({
-    newsData: [
+    news: [
       {
         title: 'Mock News Title',
         url: 'https://example.com',
@@ -18,32 +18,17 @@ jest.mock('context/NewsContext', () => ({
         type: '',
       },
     ],
-    isMoreBtnDisabled: jest.fn(),
-    paginate: jest.fn(),
-    getNewsListClass: jest.fn(),
+    isMoreBtnDisabled: true,
+    handleMoreClick: jest.fn(),
   })),
 }))
 
 describe('NewsList component', () => {
-  it('applies className based on getNewsListClass result', () => {
-    ;(useNews as jest.Mock).mockReturnValueOnce({
-      newsData: [],
-      isMoreBtnDisabled: jest.fn(),
-      paginate: jest.fn(),
-      getNewsListClass: jest.fn().mockReturnValue('news-list'),
-    })
-
-    render(<NewsList />)
-    const newsList = screen.getByTestId('news-list')
-    expect(newsList).toHaveClass('news-list')
-  })
-
   it('renders loading spinner when newsData is empty', () => {
     (useNews as jest.Mock).mockReturnValueOnce({
-      newsData: [],
-      isMoreBtnDisabled: jest.fn(),
-      paginate: jest.fn(),
-      getNewsListClass: jest.fn(),
+      news: [],
+      isMoreBtnDisabled: false,
+      handleMoreClick: jest.fn(),
     })
 
     render(<NewsList />)
@@ -59,10 +44,9 @@ describe('NewsList component', () => {
       { id: 2, title: 'News 2' },
     ]
     ;(useNews as jest.Mock).mockReturnValueOnce({
-      newsData: mockNewsData,
-      isMoreBtnDisabled: jest.fn().mockReturnValue(false),
-      paginate: jest.fn(),
-      getNewsListClass: jest.fn(),
+      news: mockNewsData,
+      isMoreBtnDisabled: false,
+      handleMoreClick: jest.fn(),
     })
 
     render(<NewsList />)
@@ -76,13 +60,12 @@ describe('NewsList component', () => {
     const paginateMock = jest.fn()
 
     ;(useNews as jest.Mock).mockReturnValueOnce({
-      newsData: [
+      news: [
         { id: 1, title: 'News 1' },
         { id: 2, title: 'News 2' },
       ],
-      isMoreBtnDisabled: jest.fn(),
-      paginate: paginateMock,
-      getNewsListClass: jest.fn(),
+      isMoreBtnDisabled: false,
+      handleMoreClick: paginateMock,
     })
 
     render(<NewsList />)
@@ -97,9 +80,8 @@ describe('NewsList component', () => {
         { id: 1, title: 'News 1' },
         { id: 2, title: 'News 2' },
       ],
-      isMoreBtnDisabled: jest.fn().mockReturnValue(true),
+      isMoreBtnDisabled: true,
       paginate: jest.fn(),
-      getNewsListClass: jest.fn(),
     })
 
     render(<NewsList />)
