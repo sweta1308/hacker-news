@@ -1,4 +1,3 @@
-import axios from 'axios'
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import {
   FetchedDataType,
@@ -6,49 +5,44 @@ import {
   NewsProviderProps,
   NewsType,
 } from './NewsContext.types'
+import { fetchData } from 'utils/fetch-data/FetchData'
 
 const NewsContext = createContext<NewsContextProps>(undefined!)
 
 export const NewsProvider: React.FC<NewsProviderProps> = ({ children }) => {
   const [idList, setIdList] = useState<number[]>([])
-  const [newsData, setNewsData] = useState<NewsType[]>([])
+  const [news, setNews] = useState<NewsType[]>([])
   const [fetchedData, setFetchedData] = useState<FetchedDataType>({})
   const [currentPage, setCurrentPage] = useState<number>(1)
+
+  const isMoreBtnDisabled = currentPage === Math.ceil(idList?.length / 30)
+
   const getIds = async () => {
-    try {
-      const { status, data } = await axios.get(
-        'https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty',
-      )
-      if (status === 200) {
-        setIdList(data)
-      }
-    } catch (e) {
-      console.log(e)
-    }
+    const data = await fetchData(
+      `https://hacker-news.firebaseio.com/v0/topstories.json?print=pretty`,
+    )
+    setIdList(data)
   }
+
   const fetchObjects = async () => {
-    setNewsData([])
+    setNews([])
     const startIndex = (currentPage - 1) * 30
     const endIndex = currentPage * 30
     const ids = idList.slice(startIndex, endIndex)
 
     if (fetchedData[currentPage]) {
-      setNewsData(fetchedData[currentPage])
+      setNews(fetchedData[currentPage])
     } else {
       const newsItems = await Promise.all(
         ids.map(async (id) => {
-          const { status, data } = await axios.get(
+          const data = await fetchData(
             `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`,
           )
-          if (status === 200) {
-            return data
-          } else {
-            console.log('Failed to fetch data!')
-          }
+          return data
         }),
       )
       setFetchedData({ ...fetchedData, [currentPage]: newsItems })
-      setNewsData(newsItems)
+      setNews(newsItems)
     }
   }
 
@@ -66,23 +60,18 @@ export const NewsProvider: React.FC<NewsProviderProps> = ({ children }) => {
 
   const handlePastClick = () => setCurrentPage((prev) => prev - 1)
 
-  const isMoreBtnDisabled = () => currentPage === Math.ceil(idList?.length / 30)
-
-  const paginate = () => {
+  const handleMoreClick = () => {
     setCurrentPage((prev) => prev + 1)
     window.scroll({ top: 0, behavior: 'smooth' })
   }
 
-  const getNewsListClass = () => newsData?.length > 0 && 'news-list'
-
   const value = {
-    newsData,
+    news,
     currentPage,
     handleNewClick,
     handlePastClick,
     isMoreBtnDisabled,
-    paginate,
-    getNewsListClass,
+    handleMoreClick,
   }
 
   return <NewsContext.Provider value={value}>{children}</NewsContext.Provider>
